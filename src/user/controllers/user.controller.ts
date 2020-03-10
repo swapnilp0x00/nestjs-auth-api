@@ -1,8 +1,12 @@
-import { Controller, Get, Post, Req, Res, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Body, Put, Param, Delete, HttpException, BadRequestException, UseFilters } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from "../schemas/user.interface";
 import { Request, Response } from 'express';
 import { async } from 'rxjs/internal/scheduler/async';
+import { ApiTags } from '@nestjs/swagger';
+import { HttpExceptionFilter } from '../filters/http.filter';
+
+@ApiTags('users')
 @Controller('users')
 export class UserController {
 
@@ -22,8 +26,11 @@ export class UserController {
 
     @Put('/:userId')
     async update(@Param("userId") userId: string, @Body() changes: Partial<User>): Promise<User> {
-        console.log(userId);
-        return this.userReposiotry.updateUser(userId, changes);
+        if (changes._id) {
+            throw new BadRequestException("Cupdate id");
+        } else {
+            return this.userReposiotry.updateUser(userId, changes);
+        }
     }
 
     @Post('/')
