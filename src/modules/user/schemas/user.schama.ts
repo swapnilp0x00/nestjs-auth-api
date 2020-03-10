@@ -6,9 +6,21 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    middleName: String,
-    lastName: String,
-    email: String
+    middleName: {
+        type: String,
+        required: false
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        unique: true
+    }
 })
 
 UserSchema.methods.toUI = function() {

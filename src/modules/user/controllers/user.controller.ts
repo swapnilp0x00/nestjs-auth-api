@@ -6,8 +6,8 @@ import { async } from 'rxjs/internal/scheduler/async';
 import { ApiTags } from '@nestjs/swagger';
 import { HttpExceptionFilter } from '../../../filters/http.filter';
 
-@ApiTags('users')
-@Controller('users')
+@ApiTags('Users')
+@Controller('/v1/users')
 export class UserController {
 
     constructor(
