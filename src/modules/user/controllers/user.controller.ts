@@ -4,7 +4,7 @@ import { User } from "../schemas/user.interface";
 import { Request, Response } from 'express';
 import { async } from 'rxjs/internal/scheduler/async';
 import { ApiTags } from '@nestjs/swagger';
-import { HttpExceptionFilter } from '../filters/http.filter';
+import { HttpExceptionFilter } from '../../../filters/http.filter';
 
 @ApiTags('users')
 @Controller('users')

@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { UserModule } from './user/user.module';
-import { HttpExceptionFilter } from './user/filters/http.filter';
-import { FallbackExceptionFilter } from './user/filters/fallback.filter';
+import { UserModule } from './modules/user/user.module';
+import { HttpExceptionFilter } from './filters/http.filter';
+import { FallbackExceptionFilter } from './filters/fallback.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
