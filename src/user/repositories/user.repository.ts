@@ -9,6 +9,10 @@ export class UserRepository {
   // This injected model service is created in module.
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
+  async find(userId: string): Promise<User> {
+      const user = await this.userModel.findById(userId)
+      return user.toUI()
+  }
   async findAll(): Promise<User[]> {
     return this.userModel.find();
   }
@@ -27,5 +31,9 @@ export class UserRepository {
       user,
       { new: true },
     );
+  }
+
+  async deleteUser(userId: string) {
+    return this.userModel.deleteOne({_id: userId})
   }
 }
