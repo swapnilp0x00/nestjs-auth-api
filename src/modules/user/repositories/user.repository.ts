@@ -1,8 +1,8 @@
-import { Injectable, Param, NotFoundException } from '@nestjs/common';
+import { Injectable, Param, NotFoundException, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { User } from '../schemas/user.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
+import * as password from 'password-hash-and-salt';
 
 @Injectable()
 export class UserRepository {
@@ -20,8 +20,31 @@ export class UserRepository {
     return this.userModel.find();
   }
 
+  async getHash(textPassword: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      password(textPassword).hash((error, hash) => {
+        if (error) {
+          console.log(error);
+          reject(new BadRequestException("Bad"))
+        } else {
+          resolve(hash)
+        }
+      })
+    });
+  }
+
   async createUser(user: Partial<User>) {
     const newUser = this.userModel(user);
+    // Add Default Role
+    if (newUser.roles.length == 0) {
+      newUser.roles = ['User']
+    }
+    // Hash Password.
+    const passwordHash = await this.getHash(newUser.password);
+    if (!passwordHash) {
+      throw new BadRequestException("bad Request");
+    }
+    newUser.password = passwordHash;
     await newUser.save();
     return newUser.toUI();
   }

@@ -21,15 +21,20 @@ const UserSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
-    passwordHash: {
+    password: {
         type: String,
         required: true,
-    }
+    },
+    roles: [{
+        type: String,
+        enum: ['User', 'Admin']
+    }]
 })
 
 UserSchema.methods.toUI = function() {
     console.log('Instance Methods')
-    return this.toObject({versionKey: false});
+    const object = this.toObject({versionKey: false});
+    return object;
 }
 
 UserSchema.statics.sample = function() {

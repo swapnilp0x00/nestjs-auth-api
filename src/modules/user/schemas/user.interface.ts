@@ -7,6 +7,6 @@ export interface User {
     email: string,
     age: number,
     roles: Array<string>,
-    hash?: string,
+    passwordHash: string,
     password?: string
 }
