@@ -9,7 +9,7 @@ import { MONGO_URL } from './_constants/constants';
   imports: [
     AuthModule,
     UserModule,
-    MongooseModule.forRoot(MONGO_URL, {useFindAndModify: false})
+    MongooseModule.forRoot(MONGO_URL, {useFindAndModify: false, useCreateIndex: true})
   ],
   controllers: [AppController],
   providers: [AppService],

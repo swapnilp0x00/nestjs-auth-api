@@ -27,6 +27,7 @@
     "@nestjs/swagger": "^4.3.2",
     "class-validator": "^0.11.0",
     "mongoose": "^5.9.3",
+    "password-hash-and-salt": "^0.1.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4",
