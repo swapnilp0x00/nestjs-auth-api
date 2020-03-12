@@ -1,10 +1,7 @@
 import { Controller, Get, Post, Req, Res, Body, Put, Param, Delete, HttpException, BadRequestException, UseFilters } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from "../schemas/user.interface";
-import { Request, Response } from 'express';
-import { async } from 'rxjs/internal/scheduler/async';
 import { ApiTags } from '@nestjs/swagger';
-import { HttpExceptionFilter } from '../../../filters/http.filter';
 
 @ApiTags('Users')
 @Controller('/v1/users')
