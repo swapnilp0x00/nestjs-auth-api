@@ -32,7 +32,6 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.methods.toUI = function() {
-    console.log('Instance Methods')
     const object = this.toObject({versionKey: false});
     const {password, ...rest} = object;
     return rest;
