@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { User } from '../../user/schemas/user.interface';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -51,6 +51,10 @@ export class AuthController {
 
     @Post('login')
     async login(@Body('email') email: string, @Body('password') textPassword: string): Promise<any> {
+        if (!email || !textPassword) {
+            throw new BadRequestException("Username / Password Missing");
+        }
+        
         const user = await this.userModel.findOne({email: email});
 
         if (!user) {
