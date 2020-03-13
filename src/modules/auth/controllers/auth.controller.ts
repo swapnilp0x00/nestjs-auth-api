@@ -68,4 +68,25 @@ export class AuthController {
             throw new UnauthorizedException("Invalid Password");
         }
     }
+
+
+    @Post('refresh')
+    async refresh(@Body('email') email: string, @Body('password') textPassword: string): Promise<any> {
+        const user = await this.userModel.findOne({email: email});
+
+        if (!user) {
+            throw new UnauthorizedException("No User Found");
+        }
+        const validatePassword = await this.validatePassword(textPassword, user.password);
+        if (validatePassword) {
+            const authToken = await this.generateAccessToken(user);
+            const refreshToken = await this.generateRefreshToken(user);
+            return {
+                'accessToken': authToken,
+                'refreshToken': refreshToken
+            };
+        } else {
+            throw new UnauthorizedException("Invalid Password");
+        }
+    }
 }
