@@ -16,13 +16,11 @@ export class AuthController {
     }
 
     async validatePassword(textPassword: string, hash: string) {
-        console.log(hash);
         return new Promise((resolve, reject) => {
             password(textPassword).verifyAgainst(
                 hash,
                 (error, verified) => {
-                    console.log(verified);
-                    if (!verified) {
+                    if (!verified || error) {
                         reject(new UnauthorizedException("Password wrong"));
                     } else {
                         resolve(true)
