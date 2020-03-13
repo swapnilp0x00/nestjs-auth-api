@@ -1,10 +1,13 @@
-import { Controller, Get, Post, Req, Res, Body, Put, Param, Delete, HttpException, BadRequestException, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, Body, Put, Param, Delete, HttpException, BadRequestException, UseFilters, UseGuards } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from "../schemas/user.interface";
 import { ApiTags } from '@nestjs/swagger';
+import { AuthenticationGuard } from 'src/guards/authentication.guard';
+import { AuthorizationGuard } from 'src/guards/authorization.guard';
 
 @ApiTags('Users')
 @Controller('/v1/users')
+@UseGuards(AuthenticationGuard, new AuthorizationGuard(['ADMIN']))
 export class UserController {
 
     constructor(

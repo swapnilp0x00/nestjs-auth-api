@@ -7,11 +7,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MONGO_URL } from './_constants/constants';
 import { GetUserMiddleware } from './middlewares/get-user.middleware';
 import { UserController } from './modules/user/controllers/user.controller';
+import { UserSchema } from './modules/user/schemas/user.schama';
 @Module({
   imports: [
     AuthModule,
     UserModule,
-    MongooseModule.forRoot(MONGO_URL, { useFindAndModify: false, useCreateIndex: true })
+    MongooseModule.forRoot(MONGO_URL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }),
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
   ],
   controllers: [AppController],
   providers: [AppService],

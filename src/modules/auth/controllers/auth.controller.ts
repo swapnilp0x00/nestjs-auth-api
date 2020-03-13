@@ -33,7 +33,6 @@ export class AuthController {
     async generateAccessToken(user): Promise<string> {
         const authToken = jwt.sign({
             email: user.email,
-            roles: user.roles
         }, JWTSecret, {
             expiresIn: AccessTokenValidity
         });

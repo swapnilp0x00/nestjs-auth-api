@@ -17,7 +17,8 @@ export class UserRepository {
       return user.toUI()
   }
   async findAll(): Promise<User[]> {
-    return this.userModel.find();
+    const users = await this.userModel.find();
+    return users.map((item: Model<User>) => item.toUI());
   }
 
   async getHash(textPassword: any): Promise<string> {
