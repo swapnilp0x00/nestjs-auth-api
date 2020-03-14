@@ -4,6 +4,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { UserModule } from './modules/user/user.module';
 import { HttpExceptionFilter } from './filters/http.filter';
 import { FallbackExceptionFilter } from './filters/fallback.filter';
+import * as compression from 'compression';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -12,6 +14,8 @@ async function bootstrap() {
     new FallbackExceptionFilter(),
     new HttpExceptionFilter(),
   );
+
+  app.use(compression());
 
   const options = new DocumentBuilder()
     .setTitle('Simple Nest JS example')
