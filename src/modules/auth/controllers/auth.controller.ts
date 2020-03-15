@@ -75,14 +75,20 @@ export class AuthController {
 
 
     @Post('refresh')
-    async refresh(@Body('email') email: string, @Body('password') textPassword: string): Promise<any> {
-        const user = await this.userModel.findOne({email: email});
-
-        if (!user) {
-            throw new UnauthorizedException("No User Found");
+    async refresh(@Body('email') email: string, @Body('refreshToken') refreshToken: string): Promise<any> {
+        
+        let storedUser: any;
+        try {
+            storedUser = jwt.verify(refreshToken, JWTSecret);
+        } catch(error) {
+            throw new UnauthorizedException("Invalid Refresh Token");
         }
-        const validatePassword = await this.validatePassword(textPassword, user.password);
-        if (validatePassword) {
+
+        if (storedUser.email === email) {
+            const user = await this.userModel.findOne({email: storedUser.email});
+            if (!user) {
+                throw new UnauthorizedException("User not found");
+            }
             const authToken = await this.generateAccessToken(user);
             const refreshToken = await this.generateRefreshToken(user);
             return {
@@ -90,7 +96,7 @@ export class AuthController {
                 'refreshToken': refreshToken
             };
         } else {
-            throw new UnauthorizedException("Invalid Password");
+            throw new BadRequestException("Invalid Data. Failed to refresh");
         }
     }
 }
